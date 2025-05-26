@@ -1,11 +1,15 @@
 // src/screens/OrdersScreen.tsx
-import React from 'react';
+import React, {useEffect} from 'react';
 import { StyleSheet } from 'react-native';
 import { Surface, Text, Card, useTheme, List, Searchbar } from 'react-native-paper';
 
 const OrdersScreen = () => {
   const theme = useTheme();
   const [searchQuery, setSearchQuery] = React.useState('');
+
+  useEffect(() => {
+
+  }, [])
 
   return (
       <Surface style={[styles.container, { backgroundColor: theme.colors.background }]}>

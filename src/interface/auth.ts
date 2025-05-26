@@ -10,6 +10,7 @@ export interface RegisterData {
 }
 
 export interface AuthDataResponse {
-   username: string
+   username: string;
+   companies?: string[]
    token:string
 }

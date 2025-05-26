@@ -14,7 +14,10 @@ const LoginScreen = ({navigation}) => {
   async function handleLogin() {
     const response: AuthDataResponse = await authService.login({username, password});
     if (response.username) {
-      navigation.navigate('Home');
+      if(response.companies === null){
+        return navigation.navigate('Company');
+      }
+      return navigation.navigate('Home');
     }
   }
 

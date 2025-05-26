@@ -28,7 +28,7 @@ const HomeScreen = () => {
             component={OrdersScreen}
             options={{
               tabBarIcon: ({ color}) => (
-                  <Icon color={color} icon="mdiMenu"/>
+                  <Icon color={color} source="menu" size={20}/>
               ),
             }}
         />
@@ -37,7 +37,7 @@ const HomeScreen = () => {
             component={QRSettingsScreen}
             options={{
               tabBarIcon: ({ color}) => (
-                  <Icon color={color} icon="mdiQrcodeEdit"/>
+                  <Icon color={color} source="qrCodeEdit" size={20}/>
               ),
             }}
         />
@@ -46,7 +46,7 @@ const HomeScreen = () => {
             component={ProfileScreen}
             options={{
               tabBarIcon: ({ color}) => (
-                  <Icon color={color} icon="mdiAccount" />
+                  <Icon color={color} source="account" size={20}/>
               ),
             }}
         />
