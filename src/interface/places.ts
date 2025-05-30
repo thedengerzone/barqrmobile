@@ -5,7 +5,7 @@ export interface AutocompleteResponse {
 
 export interface Prediction {
   description: string;
-  placeId: string;
+  place_id: string;
 }
 
 export interface PlaceDetailsResponse {
@@ -15,9 +15,9 @@ export interface PlaceDetailsResponse {
 
 export interface PlaceDetails {
   name: string;
-  formattedAddress: string;
+  formatted_address: string;
   geometry: Geometry;
-  formattedPhoneNumber: string;
+  formatted_phone_number: string;
   website: string;
 }
 

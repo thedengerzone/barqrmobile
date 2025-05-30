@@ -15,7 +15,7 @@ export const placesService = {
 
   async searchPlaceDetails(placeId: string): Promise<PlaceDetailsResponse> {
     try {
-      const response: ResponseEntity<PlaceDetailsResponse> = await api.post('/places', {placeId: placeId});
+      const response: ResponseEntity<PlaceDetailsResponse> = await api.post('/places/details', {placeId: placeId});
 
       return response.data;
     } catch (error) {

@@ -5,6 +5,8 @@ export interface BarDto {
   description: string;
   companyId: number;
   address?: string;
-  latitude?: number;
-  longitude?: number;
+  geoLocation:{
+    latitude?: number;
+    longitude?: number;
+  }
 }

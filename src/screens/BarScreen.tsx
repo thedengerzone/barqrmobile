@@ -26,8 +26,10 @@ const BarScreen = () => {
     description: '',
     companyId: companyId,
     address: '',
-    latitude: undefined,
-    longitude: undefined,
+    geoLocation: {
+      latitude: undefined,
+      longitude: undefined,
+    }
   });
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -39,13 +41,12 @@ const BarScreen = () => {
     address: '',
   });
 
-  // Debounced search for places
   useEffect(() => {
     const timeoutId = setTimeout(async () => {
       if (searchQuery.length >= 3) {
         setLoading(true);
         try {
-          const response: AutocompleteResponse = await placesService.searchPlaces(searchQuery)
+          const response: AutocompleteResponse = await placesService.searchPlaces(searchQuery);
           setPredictions(response.predictions);
         } catch (error) {
           console.error('Error fetching predictions:', error);
@@ -60,25 +61,26 @@ const BarScreen = () => {
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
 
-  const handlePlaceSelect = async (placeId: string, description: string) => {
+  const handlePlaceSelect = async (place_id: string) => {
     try {
       setLoading(true);
-      const response: PlaceDetailsResponse = await placesService.searchPlaceDetails(placeId)
-
+      const response: PlaceDetailsResponse = await placesService.searchPlaceDetails(place_id);
       const details = response.result;
       const location: Location = details.geometry.location;
 
       setBar(prev => ({
         ...prev,
-        name: details.name || prev.name,
-        address: details.formattedAddress,
-        latitude: location.lat,
-        longitude: location.lng,
+        address: details.formatted_address,
+        geoLocation: {
+          latitude: location.lat,
+          longitude: location.lng,
+        }
       }));
 
-      setPredictions([]);
-      setSearchQuery(description);
+      setSearchQuery(details.formatted_address); // Clear search query to stop further searching
+      setPredictions([]); // Hide predictions
     } catch (error) {
+      console.error('Error fetching place details:', error);
     } finally {
       setLoading(false);
     }
@@ -161,30 +163,32 @@ const BarScreen = () => {
 
             <TextInput
                 label="Search Location"
-                value={searchQuery}
-                onChangeText={setSearchQuery}
+                value={bar.address}
+                onChangeText={(text) => {
+                  setBar({...bar, address: text});
+                  setSearchQuery(text);
+                }}
                 mode="outlined"
                 style={styles.input}
                 error={!!errors.address}
             />
-            {errors.address && <HelperText type="error">{errors.address}</HelperText>}
 
             {loading && <ActivityIndicator style={styles.loader}/>}
 
             {predictions.length > 0 && (
                 <View style={styles.predictionsContainer}>
-                  {predictions.map((prediction) => (
+                  {predictions.map((prediction,index) => (
                       <List.Item
-                          key={prediction.placeId}
+                          key={index}
                           title={prediction.description}
-                          onPress={() => handlePlaceSelect(prediction.placeId, prediction.description)}
+                          onPress={() => handlePlaceSelect(prediction.place_id)}
                           style={styles.predictionItem}
                       />
                   ))}
                 </View>
             )}
 
-            {bar.latitude && bar.longitude && (
+            {bar.geoLocation.latitude && bar.geoLocation.longitude && (
                 <Text style={styles.locationInfo}>
                   Selected location: {bar.address}
                 </Text>
