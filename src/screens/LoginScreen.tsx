@@ -14,10 +14,10 @@ const LoginScreen = ({navigation}) => {
   async function handleLogin() {
     const response: AuthDataResponse = await authService.login({username, password});
     if (response.username) {
-      if(response.companies === null){
+      if (response.company === null) {
         return navigation.navigate('Company');
       }
-      return navigation.navigate('Home');
+      return navigation.navigate('BarPicker', {companyId: response.company?.id});
     }
   }
 

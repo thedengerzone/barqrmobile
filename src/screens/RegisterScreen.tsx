@@ -1,26 +1,31 @@
 // src/screens/RegisterScreen.tsx
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
-import {Button, Surface, Text, TextInput, useTheme} from 'react-native-paper';
+import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
+import {Button, Divider, Menu, Surface, Text, TextInput, useTheme} from 'react-native-paper';
 import {authService} from '../services/auth.ts';
-import {ResponseEntity} from '../interface/response.ts';
 import {RegisterData} from '../interface/auth.ts';
 
-// @ts-ignore
 const RegisterScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('customer');
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const openMenu = () => setMenuVisible(true);
+  const closeMenu = () => setMenuVisible(false);
   const theme = useTheme();
 
   async function handleLogin() {
     const response: RegisterData = await authService.register({
       username,
       email,
-      password
+      password,
+      role
     });
     if (response) {
+
       navigation.navigate('Login');
     }
   }
@@ -70,6 +75,36 @@ const RegisterScreen = ({navigation}) => {
               secureTextEntry
               style={styles.input}
           />
+
+          <View style={{marginBottom: 16}}>
+            <Text style={{marginBottom: 8}}>Select Role</Text>
+
+            <Menu
+                visible={menuVisible}
+                onDismiss={closeMenu}
+                anchor={
+                  <Button mode="outlined" onPress={openMenu}>
+                    {role}
+                  </Button>
+                }
+            >
+              <Menu.Item onPress={() => {
+                setRole('Owner');
+                closeMenu();
+              }} title="Owner"/>
+              <Divider/>
+              <Menu.Item onPress={() => {
+                setRole('Waiter');
+                closeMenu();
+              }} title="Waiter"/>
+              <Divider/>
+              <Menu.Item onPress={() => {
+                setRole('Customer');
+                closeMenu();
+              }} title="Customer"/>
+            </Menu>
+          </View>
+
 
           <Button
               mode="contained"

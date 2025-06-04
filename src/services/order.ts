@@ -1,15 +1,12 @@
 import api from './api.ts';
-import {AuthDataResponse, LoginData, RegisterData} from '../interface/auth.ts';
+import {RegisterData} from '../interface/auth.ts';
 import {ResponseEntity} from "../interface/response.ts";
+import {Order} from "../interface/order.ts";
 
 export const orderService = {
-  async getAll(): Promise<AuthDataResponse> {
+  async getAll(barId: number): Promise<Order[]> {
     try {
-      const response: ResponseEntity<AuthDataResponse> = await api.post('/order');
-
-      if (response.status === 200) {
-        api.defaults.headers.common.Authorization = `Bearer ${response.data?.token}`;
-      }
+      const response: ResponseEntity<Order[]> = await api.post('/order/bar', {barId: barId});
 
       return response.data;
     } catch (error) {

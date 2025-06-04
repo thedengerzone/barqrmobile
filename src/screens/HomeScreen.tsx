@@ -1,16 +1,17 @@
-// src/screens/HomeScreen.tsx
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useTheme } from 'react-native-paper';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Icon, useTheme} from 'react-native-paper';
 import OrdersScreen from './OrdersScreen.tsx';
 import ProfileScreen from './ProfileScreen.tsx';
 import QRSettingsScreen from './QRSettingsScreen.tsx';
-import { Icon } from 'react-native-paper';
+import {useRoute} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
   const theme = useTheme();
+  const route = useRoute();
+  const {barId} = route.params;
 
   return (
       <Tab.Navigator
@@ -26,8 +27,9 @@ const HomeScreen = () => {
         <Tab.Screen
             name="Orders"
             component={OrdersScreen}
+            initialParams={{barId}}
             options={{
-              tabBarIcon: ({ color}) => (
+              tabBarIcon: ({color}) => (
                   <Icon color={color} source="menu" size={20}/>
               ),
             }}
@@ -35,8 +37,9 @@ const HomeScreen = () => {
         <Tab.Screen
             name="QR Settings"
             component={QRSettingsScreen}
+            initialParams={{barId}}
             options={{
-              tabBarIcon: ({ color}) => (
+              tabBarIcon: ({color}) => (
                   <Icon color={color} source="qrCodeEdit" size={20}/>
               ),
             }}
@@ -44,8 +47,9 @@ const HomeScreen = () => {
         <Tab.Screen
             name="Profile"
             component={ProfileScreen}
+            initialParams={{barId}}
             options={{
-              tabBarIcon: ({ color}) => (
+              tabBarIcon: ({color}) => (
                   <Icon color={color} source="account" size={20}/>
               ),
             }}
