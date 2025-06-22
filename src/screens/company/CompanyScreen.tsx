@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, TextInput, Surface, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import {CompanyDto} from "../interface/company.ts";
-import {companyService} from "../services/company.ts";
+import {CompanyDto} from "../../interface/company.ts";
+import {companyService} from "../../services/company.ts";
 
 const CompanyScreen = () => {
   const theme = useTheme();

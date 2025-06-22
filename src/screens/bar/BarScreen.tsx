@@ -11,10 +11,10 @@ import {
   TextInput
 } from 'react-native-paper';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {BarDto} from '../interface/bar';
-import {barService} from '../services/bar';
-import {AutocompleteResponse, Location, PlaceDetailsResponse, Prediction} from "../interface/places.ts";
-import {placesService} from "../services/places.ts";
+import {BarDto} from '../../interface/bar.ts';
+import {barService} from '../../services/bar.ts';
+import {AutocompleteResponse, Location, PlaceDetailsResponse, Prediction} from "../../interface/places.ts";
+import {placesService} from "../../services/places.ts";
 
 const BarScreen = () => {
   const navigation = useNavigation();

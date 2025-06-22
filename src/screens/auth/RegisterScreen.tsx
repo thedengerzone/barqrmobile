@@ -2,8 +2,8 @@
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
 import {Button, Divider, Menu, Surface, Text, TextInput, useTheme} from 'react-native-paper';
-import {authService} from '../services/auth.ts';
-import {RegisterData} from '../interface/auth.ts';
+import {authService} from '../../services/auth.ts';
+import {RegisterData} from '../../interface/auth.ts';
 
 const RegisterScreen = ({navigation}) => {
   const [username, setUsername] = useState('');

@@ -2,8 +2,8 @@
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
 import {Button, Surface, Text, TextInput, useTheme} from 'react-native-paper';
-import {authService} from '../services/auth.ts';
-import {AuthDataResponse} from "../interface/auth.ts";
+import {authService} from '../../services/auth.ts';
+import {AuthDataResponse} from "../../interface/auth.ts";
 
 // @ts-ignore
 const LoginScreen = ({navigation}) => {

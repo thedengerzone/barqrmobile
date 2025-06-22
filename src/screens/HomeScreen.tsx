@@ -1,10 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon, useTheme} from 'react-native-paper';
-import OrdersScreen from './OrdersScreen.tsx';
+import OrdersScreen from './order/OrdersScreen.tsx';
 import ProfileScreen from './ProfileScreen.tsx';
 import QRSettingsScreen from './QRSettingsScreen.tsx';
 import {useRoute} from '@react-navigation/native';
+import CompanySettingsScreen from "./company/CompanySettingsScreen.tsx";
 
 const Tab = createBottomTabNavigator();
 
@@ -35,8 +36,8 @@ const HomeScreen = () => {
             }}
         />
         <Tab.Screen
-            name="QR Settings"
-            component={QRSettingsScreen}
+            name="Company"
+            component={CompanySettingsScreen}
             initialParams={{barId}}
             options={{
               tabBarIcon: ({color}) => (

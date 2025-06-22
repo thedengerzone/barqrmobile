@@ -5,12 +5,17 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PaperProvider} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
-import LoginScreen from './src/screens/LoginScreen';
-import RegisterScreen from './src/screens/RegisterScreen';
+import LoginScreen from './src/screens/auth/LoginScreen.tsx';
+import RegisterScreen from './src/screens/auth/RegisterScreen.tsx';
 import HomeScreen from './src/screens/HomeScreen.tsx';
-import CompanyScreen from "./src/screens/CompanyScreen.tsx";
-import BarScreen from './src/screens/BarScreen.tsx';
-import BarPickerScreen from "./src/screens/BarPickerScreen.tsx";
+import CompanyScreen from "./src/screens/company/CompanyScreen.tsx";
+import BarScreen from './src/screens/bar/BarScreen.tsx';
+import BarPickerScreen from "./src/screens/bar/BarPickerScreen.tsx";
+import CompanySettingsScreen from "./src/screens/company/CompanySettingsScreen.tsx";
+import MenuSettingsScreen from "./src/screens/menu/MenuSettingsScreen.tsx";
+import UserSettingsScreen from "./src/screens/UserSettingsScreen.tsx";
+import BarSettingsScreen from "./src/screens/bar/BarSettingsScreen.tsx";
+import EditMenuScreen from "./src/screens/menu/EditMenuScreen.tsx";
 // Import your existing screens
 
 const Stack = createNativeStackNavigator();
@@ -22,16 +27,20 @@ function App(): React.JSX.Element {
           <NavigationContainer>
             <Stack.Navigator
                 initialRouteName="Login"
-                screenOptions={{
-                  headerShown: false,
-                }}
             >
-              <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="Login" component={LoginScreen}  options={{
+                headerShown: false,
+              }}/>
               <Stack.Screen name="Register" component={RegisterScreen} />
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Company" component={CompanyScreen} />
               <Stack.Screen name="Bar" component={BarScreen} />
               <Stack.Screen name="BarPicker" component={BarPickerScreen}/>
+              <Stack.Screen name="CompanySettings" component={CompanySettingsScreen}/>
+              <Stack.Screen name="MenuSettings" component={MenuSettingsScreen}/>
+              <Stack.Screen name="EditMenu" component={EditMenuScreen}/>
+              <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
+              <Stack.Screen name="BarSettings" component={BarSettingsScreen}/>
 
               {/* Add your other screens here */}
             </Stack.Navigator>

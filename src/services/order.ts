@@ -14,9 +14,9 @@ export const orderService = {
     }
   },
 
-  async acknowlege(id: number): Promise<RegisterData> {
+  async updateOrderStatus(order: Order): Promise<Order> {
     try {
-      const response: ResponseEntity<RegisterData> = await api.post('/auth/register', id);
+      const response: ResponseEntity<Order> = await api.post('/order/status', order);
 
       if(response.status === 200){
         return response.data;
