@@ -2,7 +2,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {PaperProvider} from 'react-native-paper';
+import {DefaultTheme, PaperProvider} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import LoginScreen from './src/screens/auth/LoginScreen.tsx';
@@ -11,11 +11,13 @@ import HomeScreen from './src/screens/HomeScreen.tsx';
 import CompanyScreen from "./src/screens/company/CompanyScreen.tsx";
 import BarScreen from './src/screens/bar/BarScreen.tsx';
 import BarPickerScreen from "./src/screens/bar/BarPickerScreen.tsx";
-import CompanySettingsScreen from "./src/screens/company/CompanySettingsScreen.tsx";
+import ConfigurationSettingsScreen from "./src/screens/company/ConfigurationSettingsScreen.tsx";
 import MenuSettingsScreen from "./src/screens/menu/MenuSettingsScreen.tsx";
 import UserSettingsScreen from "./src/screens/UserSettingsScreen.tsx";
 import BarSettingsScreen from "./src/screens/bar/BarSettingsScreen.tsx";
 import EditMenuScreen from "./src/screens/menu/EditMenuScreen.tsx";
+import MultiCaptureScreen from "./src/screens/camera/MultiCaptureScreen.tsx";
+import CreateMenuScreen from "./src/screens/menu/CreateMenuScreen.tsx";
 // Import your existing screens
 
 const Stack = createNativeStackNavigator();
@@ -23,7 +25,7 @@ const Stack = createNativeStackNavigator();
 function App(): React.JSX.Element {
   return (
       <SafeAreaProvider>
-        <PaperProvider>
+        <PaperProvider theme={DefaultTheme}>
           <NavigationContainer>
             <Stack.Navigator
                 initialRouteName="Login"
@@ -36,11 +38,13 @@ function App(): React.JSX.Element {
               <Stack.Screen name="Company" component={CompanyScreen} />
               <Stack.Screen name="Bar" component={BarScreen} />
               <Stack.Screen name="BarPicker" component={BarPickerScreen}/>
-              <Stack.Screen name="CompanySettings" component={CompanySettingsScreen}/>
+              <Stack.Screen name="ConfigurationSettings" component={ConfigurationSettingsScreen}/>
               <Stack.Screen name="MenuSettings" component={MenuSettingsScreen}/>
               <Stack.Screen name="EditMenu" component={EditMenuScreen}/>
               <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
               <Stack.Screen name="BarSettings" component={BarSettingsScreen}/>
+              <Stack.Screen name="Camera" component={MultiCaptureScreen}/>
+              <Stack.Screen name="CreateMenu" component={CreateMenuScreen}/>
 
               {/* Add your other screens here */}
             </Stack.Navigator>

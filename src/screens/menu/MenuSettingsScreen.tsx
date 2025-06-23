@@ -37,7 +37,7 @@ const MenuSettingsScreen = () => {
               onChangeText={setSearchQuery}
               style={styles.searchbar}
           />
-          <Button onPress={() => navigation.navigate('AddMenu')} mode="contained">
+          <Button onPress={() => navigation.navigate('Camera')} mode="contained">
             Add
           </Button>
         </View>

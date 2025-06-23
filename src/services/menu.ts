@@ -12,7 +12,7 @@ export const menuService = {
       throw error;
     }
   },
-  async updateMenu(menu: Menu){
+  async insertOrUpdateMenu(menu: Menu){
     try {
       const response: ResponseEntity<Menu[]> = await api.post('/menu', menu);
 
@@ -20,5 +20,6 @@ export const menuService = {
     } catch (error) {
       throw error;
     }
-  }
+  },
+
 };

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { List, Surface, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-const CompanySettingsScreen = () => {
+const ConfigurationSettingsScreen = () => {
   const theme = useTheme();
   const navigation = useNavigation();
 
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CompanySettingsScreen;
+export default ConfigurationSettingsScreen;

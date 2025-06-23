@@ -1,5 +1,5 @@
 export interface Menu {
-  id: number
+  id?: number
   name: string
   menuItems: MenuItem[]
   companyId: number
@@ -7,7 +7,7 @@ export interface Menu {
 }
 
 export interface MenuItem {
-  id: number,
+  id?: number,
   name: string,
   description: string,
   price: number

@@ -33,7 +33,7 @@ const EditMenuScreen = () => {
   };
 
   const onChangeMenuItem = (
-      id: number | null,
+      id: number | null | undefined,
       field: keyof MenuItem,
       value: string | number | boolean
   ) => {
@@ -59,7 +59,7 @@ const EditMenuScreen = () => {
     }));
   };
 
-  const handleRemoveMenuItem = (id: number | null) => {
+  const handleRemoveMenuItem = (id: number | null | undefined) => {
     Alert.alert('Confirm Deletion', 'Are you sure you want to remove this item?', [
       {
         text: 'Cancel',
@@ -103,7 +103,7 @@ const EditMenuScreen = () => {
 
     setIsSubmitting(true);
     try {
-      await menuService.updateMenu(menu);
+      await menuService.insertOrUpdateMenu(menu);
       Alert.alert('Success', 'Menu updated successfully.', [
         { text: 'OK', onPress: () => navigation.goBack() },
       ]);
