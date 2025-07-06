@@ -39,7 +39,7 @@ function App(): React.JSX.Element {
               <Stack.Screen name="Register" component={RegisterScreen} />
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Company" component={CompanyScreen} />
-              <Stack.Screen name="Bar" component={BarScreen} />
+              <Stack.Screen name="NewBar" component={BarScreen} />
               <Stack.Screen name="BarPicker" component={BarPickerScreen}/>
               <Stack.Screen name="EditBar" component={EditBarScreen}/>
               <Stack.Screen name="ConfigurationSettings" component={ConfigurationSettingsScreen}/>

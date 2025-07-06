@@ -61,7 +61,7 @@ const CompanyScreen = () => {
           payload: updatedUser
         });
 
-        return navigation.navigate('Bar', { companyId: response.id });
+        return navigation.navigate('BarSettings', { companyId: response.id });
       } catch (error) {
         console.error('Error creating company:', error);
       }

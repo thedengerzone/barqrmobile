@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon, useTheme} from 'react-native-paper';
 import OrdersScreen from './order/OrdersScreen.tsx';
-import ProfileScreen from './ProfileScreen.tsx';
+import QrCode from './ProfileScreen.tsx';
 import {useRoute} from '@react-navigation/native';
 import ConfigurationSettingsScreen from "./company/ConfigurationSettingsScreen.tsx";
 
@@ -37,16 +37,16 @@ const HomeScreen = () => {
             component={ConfigurationSettingsScreen}
             options={{
               tabBarIcon: ({color}) => (
-                  <Icon color={color} source="qrCodeEdit" size={20}/>
+                  <Icon color={color} source="cog" size={20}/>
               ),
             }}
         />
         <Tab.Screen
-            name="Profile"
-            component={ProfileScreen}
+            name="QRCode"
+            component={QrCode}
             options={{
               tabBarIcon: ({color}) => (
-                  <Icon color={color} source="account" size={20}/>
+                  <Icon color={color} source="qrcode" size={20}/>
               ),
             }}
         />

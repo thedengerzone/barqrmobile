@@ -84,8 +84,8 @@ const BarScreen = () => {
         }
       }));
 
-      setSearchQuery(details.formatted_address); // Clear search query to stop further searching
-      setPredictions([]); // Hide predictions
+      setSearchQuery(details.formatted_address);
+      setPredictions([]);
     } catch (error) {
       console.error('Error fetching place details:', error);
     } finally {

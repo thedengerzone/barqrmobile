@@ -36,7 +36,7 @@ const BarSettingsScreen = () => {
               onChangeText={setSearchQuery}
               style={styles.searchbar}
           />
-          <Button onPress={() => navigation.navigate('AddBar')} mode="contained">
+          <Button onPress={() => navigation.navigate('NewBar', { companyId: state.auth.user?.company.id })} mode="contained">
             Add
           </Button>
         </View>
