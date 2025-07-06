@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
-import { Button, IconButton, List, Searchbar, Surface, useTheme } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-
-const mockBars = [
-  { id: 1, name: 'Main Street Bar' },
-  { id: 2, name: 'Downtown Lounge' },
-];
+import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {Button, IconButton, List, Searchbar, Surface, useTheme} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import {BarDto} from "../../interface/bar.ts";
+import {barService} from "../../services/bar.ts";
+import {useGlobalState} from "../reducer/reducers.tsx";
 
 const BarSettingsScreen = () => {
-  const [bars, setBars] = useState([]);
+  const [bars, setBars] = useState<BarDto[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const navigation = useNavigation();
   const theme = useTheme();
+  const state = useGlobalState()
 
   useEffect(() => {
     const fetchBars = async () => {
-      // Replace with actual API
-      setBars(mockBars);
+      const response = await barService.getBarsByCompany(state.auth.user?.company.id)
+      if (response) {
+        setBars(response);
+      }
     };
     fetchBars();
   }, []);

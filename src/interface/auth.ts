@@ -14,6 +14,6 @@ export interface RegisterData {
 
 export interface AuthDataResponse {
    username: string;
-  company?: CompanyDto
+  company: CompanyDto
    token:string
 }

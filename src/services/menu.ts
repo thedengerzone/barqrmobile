@@ -21,5 +21,14 @@ export const menuService = {
       throw error;
     }
   },
+  async deleteMenu(id: number) {
+    try {
+      const response: ResponseEntity<Boolean> = await api.delete(`/menu/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
 };

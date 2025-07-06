@@ -3,7 +3,7 @@ import {ResponseEntity} from "../interface/response.ts";
 import {BarDto} from "../interface/bar.ts";
 
 export const barService = {
-  async create(barDto: BarDto): Promise<BarDto> {
+  async upsert(barDto: BarDto): Promise<BarDto> {
     try {
       const response: ResponseEntity<BarDto> = await api.post('/bar', barDto);
 
@@ -12,13 +12,25 @@ export const barService = {
       throw error;
     }
   },
-  async getBarsByCompany(companyId: number): Promise<BarDto> {
+  async getBarsByCompany(companyId: number): Promise<BarDto[]> {
     try {
-      const response: ResponseEntity<BarDto> = await api.post('/bar/all', {companyId: companyId});
+      const response: ResponseEntity<BarDto[]> = await api.post('/bar/all', {companyId: companyId});
 
       return response.data;
     } catch (error) {
       throw error;
     }
   },
+  async getBarDetails(barId: number, companyId: number): Promise<BarDto> {
+    try {
+      const response: ResponseEntity<BarDto> = await api.post('/bar/find', {
+        companyId: companyId,
+        barId: barId
+      });
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 };

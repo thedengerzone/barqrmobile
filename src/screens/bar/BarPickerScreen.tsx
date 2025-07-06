@@ -1,23 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {
-  Button,
-  List,
-  Surface,
-  Text,
-  TextInput,
-  useTheme,
-} from 'react-native-paper';
+import {FlatList, KeyboardAvoidingView, Platform, StyleSheet,} from 'react-native';
+import {Button, List, Surface, Text, TextInput, useTheme,} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BarDto} from '../../interface/bar.ts';
-import {useRoute} from '@react-navigation/native';
 import {barService} from '../../services/bar.ts';
+import {useGlobalDispatch, useGlobalState} from "../reducer/reducers.tsx";
 
 const BarPickerScreen = ({navigation}) => {
   const [bars, setBars] = useState<BarDto[]>([]);
@@ -25,27 +12,34 @@ const BarPickerScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const theme = useTheme();
-  const route = useRoute();
-  const {companyId} = route.params;
+  const state = useGlobalState()
+  const dispatch = useGlobalDispatch()
 
   useEffect(() => {
     async function fetchBars() {
       try {
-        const data: BarDto[] = await barService.getBarsByCompany(companyId);
-        setBars(data);
+        const company = state.auth.user?.company;
+        if (company && company.id != null) {
+          const data: BarDto[] = await barService.getBarsByCompany(company.id);
+          setBars(data);
+        } else {
+          setBars([]);
+        }
       } catch (err) {
         console.error('Error fetching bars', err);
+        setBars([]);
       } finally {
         setLoading(false);
       }
     }
 
     fetchBars();
-  }, [companyId]);
+  }, []);
 
   const handleContinue = () => {
     if (selectedBar) {
-      navigation.navigate('Home', {barId: selectedBar.id});
+      dispatch({type: "setBar", payload: selectedBar})
+      navigation.navigate('Home');
     }
   };
 

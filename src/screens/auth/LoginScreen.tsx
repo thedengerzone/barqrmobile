@@ -1,23 +1,45 @@
-// src/screens/LoginScreen.tsx
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
 import {Button, Surface, Text, TextInput, useTheme} from 'react-native-paper';
 import {authService} from '../../services/auth.ts';
 import {AuthDataResponse} from "../../interface/auth.ts";
+import {useGlobalDispatch, useGlobalState} from "../reducer/reducers.tsx";
+import {CommonActions, useFocusEffect} from "@react-navigation/native";
 
-// @ts-ignore
 const LoginScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const state = useGlobalState()
+  const dispatch = useGlobalDispatch()
   const theme = useTheme();
+
+  useFocusEffect(() => {
+    if (state.auth.user) {
+      return navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'BarPicker'}],
+          })
+      );
+    }
+  });
 
   async function handleLogin() {
     const response: AuthDataResponse = await authService.login({username, password});
     if (response.username) {
+      dispatch({type: 'setUser', payload: response})
       if (response.company === null) {
-        return navigation.navigate('Company');
+        return navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'Company'}],
+            }))
       }
-      return navigation.navigate('BarPicker', {companyId: response.company?.id});
+      return navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'BarPicker'}],
+          }))
     }
   }
 

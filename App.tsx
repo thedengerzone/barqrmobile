@@ -18,12 +18,15 @@ import BarSettingsScreen from "./src/screens/bar/BarSettingsScreen.tsx";
 import EditMenuScreen from "./src/screens/menu/EditMenuScreen.tsx";
 import MultiCaptureScreen from "./src/screens/camera/MultiCaptureScreen.tsx";
 import CreateMenuScreen from "./src/screens/menu/CreateMenuScreen.tsx";
+import {GlobalProvider} from "./src/screens/reducer/reducers.tsx";
+import EditBarScreen from "./src/screens/bar/EditBarScreen.tsx";
 // Import your existing screens
 
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
   return (
+      <GlobalProvider>
       <SafeAreaProvider>
         <PaperProvider theme={DefaultTheme}>
           <NavigationContainer>
@@ -38,6 +41,7 @@ function App(): React.JSX.Element {
               <Stack.Screen name="Company" component={CompanyScreen} />
               <Stack.Screen name="Bar" component={BarScreen} />
               <Stack.Screen name="BarPicker" component={BarPickerScreen}/>
+              <Stack.Screen name="EditBar" component={EditBarScreen}/>
               <Stack.Screen name="ConfigurationSettings" component={ConfigurationSettingsScreen}/>
               <Stack.Screen name="MenuSettings" component={MenuSettingsScreen}/>
               <Stack.Screen name="EditMenu" component={EditMenuScreen}/>
@@ -51,6 +55,7 @@ function App(): React.JSX.Element {
           </NavigationContainer>
         </PaperProvider>
       </SafeAreaProvider>
+      </GlobalProvider>
   );
 }
 

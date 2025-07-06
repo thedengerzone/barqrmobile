@@ -1,9 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {ScrollView, StyleSheet, View,} from 'react-native';
 import {
   Button,
   Card,
@@ -15,14 +11,14 @@ import {
   Text,
   useTheme,
 } from 'react-native-paper';
-import { useFocusEffect, useRoute } from '@react-navigation/native';
-import { orderService } from '../../services/order.ts';
-import { Order, OrderStatus } from '../../interface/order.ts';
+import {useFocusEffect} from '@react-navigation/native';
+import {orderService} from '../../services/order.ts';
+import {Order, OrderStatus} from '../../interface/order.ts';
+import {useGlobalState} from "../reducer/reducers.tsx";
 
 const OrdersScreen = () => {
   const theme = useTheme();
-  const route = useRoute();
-  const { barId } = route.params as { barId: number };
+  const state = useGlobalState();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [orders, setOrders] = useState<Order[]>([]);
@@ -31,7 +27,7 @@ const OrdersScreen = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await orderService.getAll(barId);
+      const response = await orderService.getAll(state.currentBar.bar?.id);
       if (response) {
         setOrders(response);
       }
@@ -70,7 +66,7 @@ const OrdersScreen = () => {
   useFocusEffect(
       useCallback(() => {
         fetchOrders();
-      }, [barId])
+      }, [state.auth.user?.company.id])
   );
 
   return (

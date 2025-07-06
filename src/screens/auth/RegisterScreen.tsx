@@ -1,4 +1,3 @@
-// src/screens/RegisterScreen.tsx
 import React, {useState} from 'react';
 import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
 import {Button, Divider, Menu, Surface, Text, TextInput, useTheme} from 'react-native-paper';

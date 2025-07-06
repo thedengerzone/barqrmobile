@@ -1,14 +1,18 @@
 // src/screens/CompanyScreen.tsx
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Text, TextInput, Surface, useTheme } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Button, Surface, Text, TextInput, useTheme} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 import {CompanyDto} from "../../interface/company.ts";
 import {companyService} from "../../services/company.ts";
+import {useGlobalDispatch, useGlobalState} from "../reducer/reducers.tsx";
+import {AuthDataResponse} from "../../interface/auth.ts";
 
 const CompanyScreen = () => {
   const theme = useTheme();
   const navigation = useNavigation();
+  const dispatch = useGlobalDispatch()
+  const state = useGlobalState()
   const [company, setCompany] = useState<CompanyDto>({
     name: '',
     description: ''
@@ -43,6 +47,20 @@ const CompanyScreen = () => {
     if (validateForm()) {
       try {
         const response = await companyService.create(company)
+
+        const updatedUser: AuthDataResponse = {
+          ...state.auth.user!,
+          company: {
+            ...state.auth.user!.company,
+            ...response
+          }
+        };
+
+        dispatch({
+          type: 'setUser',
+          payload: updatedUser
+        });
+
         return navigation.navigate('Bar', { companyId: response.id });
       } catch (error) {
         console.error('Error creating company:', error);

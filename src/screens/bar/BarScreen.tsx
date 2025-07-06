@@ -13,11 +13,18 @@ import {
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {BarDto} from '../../interface/bar.ts';
 import {barService} from '../../services/bar.ts';
-import {AutocompleteResponse, Location, PlaceDetailsResponse, Prediction} from "../../interface/places.ts";
+import {
+  AutocompleteResponse,
+  Location,
+  PlaceDetailsResponse,
+  Prediction
+} from "../../interface/places.ts";
 import {placesService} from "../../services/places.ts";
+import {useGlobalDispatch} from "../reducer/reducers.tsx";
 
 const BarScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useGlobalDispatch()
   const route = useRoute();
   const companyId = route.params?.companyId;
 
@@ -117,8 +124,9 @@ const BarScreen = () => {
     if (validateForm()) {
       try {
         setLoading(true);
-        const response = await barService.create(bar);
+        const response = await barService.upsert(bar);
         if (response) {
+          dispatch({type: "setBar", payload: response})
           navigation.navigate('Home');
         }
       } catch (error) {
