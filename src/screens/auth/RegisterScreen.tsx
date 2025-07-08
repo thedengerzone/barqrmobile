@@ -93,11 +93,6 @@ const RegisterScreen = ({navigation}) => {
               }} title="Owner"/>
               <Divider/>
               <Menu.Item onPress={() => {
-                setRole('Waiter');
-                closeMenu();
-              }} title="Waiter"/>
-              <Divider/>
-              <Menu.Item onPress={() => {
                 setRole('Customer');
                 closeMenu();
               }} title="Customer"/>

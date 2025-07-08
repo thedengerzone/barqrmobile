@@ -35,6 +35,14 @@ const LoginScreen = ({navigation}) => {
               routes: [{name: 'Company'}],
             }))
       }
+
+      if(response.changePassword){
+        return navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: 'ChangePassword'}],
+            }))
+      }
       return navigation.dispatch(
           CommonActions.reset({
             index: 0,

@@ -13,13 +13,15 @@ import BarScreen from './src/screens/bar/BarScreen.tsx';
 import BarPickerScreen from "./src/screens/bar/BarPickerScreen.tsx";
 import ConfigurationSettingsScreen from "./src/screens/company/ConfigurationSettingsScreen.tsx";
 import MenuSettingsScreen from "./src/screens/menu/MenuSettingsScreen.tsx";
-import UserSettingsScreen from "./src/screens/UserSettingsScreen.tsx";
 import BarSettingsScreen from "./src/screens/bar/BarSettingsScreen.tsx";
 import EditMenuScreen from "./src/screens/menu/EditMenuScreen.tsx";
 import MultiCaptureScreen from "./src/screens/camera/MultiCaptureScreen.tsx";
 import CreateMenuScreen from "./src/screens/menu/CreateMenuScreen.tsx";
 import {GlobalProvider} from "./src/screens/reducer/reducers.tsx";
 import EditBarScreen from "./src/screens/bar/EditBarScreen.tsx";
+import AddUserScreen from "./src/screens/user/AddUserScreen.tsx";
+import UserSettingsScreen from "./src/screens/user/UserSettingsScreen.tsx";
+import ChangePasswordScreen from "./src/screens/user/ChangePasswordScreen.tsx";
 // Import your existing screens
 
 const Stack = createNativeStackNavigator();
@@ -45,10 +47,12 @@ function App(): React.JSX.Element {
               <Stack.Screen name="ConfigurationSettings" component={ConfigurationSettingsScreen}/>
               <Stack.Screen name="MenuSettings" component={MenuSettingsScreen}/>
               <Stack.Screen name="EditMenu" component={EditMenuScreen}/>
-              <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
               <Stack.Screen name="BarSettings" component={BarSettingsScreen}/>
               <Stack.Screen name="Camera" component={MultiCaptureScreen}/>
               <Stack.Screen name="CreateMenu" component={CreateMenuScreen}/>
+              <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
+              <Stack.Screen name="AddUser" component={AddUserScreen}/>
+              <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}/>
 
               {/* Add your other screens here */}
             </Stack.Navigator>
