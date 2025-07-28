@@ -5,6 +5,7 @@ import OrdersScreen from './order/OrdersScreen.tsx';
 import QrCode from './ProfileScreen.tsx';
 import {useRoute} from '@react-navigation/native';
 import ConfigurationSettingsScreen from "./company/ConfigurationSettingsScreen.tsx";
+import QrSettingsScreen from "./qr/QRSettingsScreen.tsx";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +44,7 @@ const HomeScreen = () => {
         />
         <Tab.Screen
             name="QRCode"
-            component={QrCode}
+            component={QrSettingsScreen}
             options={{
               tabBarIcon: ({color}) => (
                   <Icon color={color} source="qrcode" size={20}/>

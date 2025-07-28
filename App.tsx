@@ -22,6 +22,11 @@ import EditBarScreen from "./src/screens/bar/EditBarScreen.tsx";
 import AddUserScreen from "./src/screens/user/AddUserScreen.tsx";
 import UserSettingsScreen from "./src/screens/user/UserSettingsScreen.tsx";
 import ChangePasswordScreen from "./src/screens/user/ChangePasswordScreen.tsx";
+import QrSettingsScreen from "./src/screens/qr/QRSettingsScreen.tsx";
+import AddQRCode from "./src/screens/qr/AddQRCode.tsx";
+import ManageQRCode from "./src/screens/qr/ManageQRCode.tsx";
+import QRScanner from "./src/screens/qr/QRScanner.tsx";
+import EditQRCode from "./src/screens/qr/EditQRCode.tsx";
 // Import your existing screens
 
 const Stack = createNativeStackNavigator();
@@ -53,6 +58,11 @@ function App(): React.JSX.Element {
               <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
               <Stack.Screen name="AddUser" component={AddUserScreen}/>
               <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}/>
+              <Stack.Screen name="QRCode" component={QrSettingsScreen}/>
+              <Stack.Screen name="AddQRCode" component={AddQRCode}/>
+              <Stack.Screen name="ManageQRCode" component={ManageQRCode}/>
+              <Stack.Screen name="EditQRCode" component={EditQRCode}/>
+              <Stack.Screen name="QRScanner" component={QRScanner}/>
 
               {/* Add your other screens here */}
             </Stack.Navigator>
