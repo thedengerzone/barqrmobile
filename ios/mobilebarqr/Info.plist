@@ -52,6 +52,12 @@
   <string>This app needs access to location when open.</string>
   <key>NSLocationAlwaysUsageDescription</key>
   <string>This app needs access to location when in the background.</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Your message to user when the camera is accessed for the first time</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Your message to user when the photo library is accessed for the first time</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Your message to user when the microsphone is accessed for the first time</string>
   <key>UIAppFonts</key>
   <array>
     <string>AntDesign.ttf</string>
