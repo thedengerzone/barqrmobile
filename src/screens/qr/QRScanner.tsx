@@ -7,7 +7,7 @@ const QRScanner = ({navigation}) => {
     codeTypes: ['qr'],
     onCodeScanned: (codes) => {
       if (codes && codes.length > 0) {
-        navigation.navigate('EditQrCode', {code: extractIdFromUrl(codes[0].value)});
+        navigation.navigate('EditQRCode', {code: extractIdFromUrl(codes[0].value)});
       }
     },
   });

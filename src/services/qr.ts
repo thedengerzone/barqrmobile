@@ -1,6 +1,5 @@
 import api from './api.ts';
 import {ResponseEntity} from "../interface/response.ts";
-import {User} from "../interface/user.ts";
 import {QR, QRDto} from "../interface/qr.ts";
 
 export const qrService = {
@@ -25,6 +24,15 @@ export const qrService = {
   async getQRCodeById(qrcode:string): Promise<QR> {
     try {
       const response: ResponseEntity<QR> = await api.get(`/qr/code/${qrcode}`);
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  async updateQrCode(qrcode: QR): Promise<QR> {
+    try {
+      const response: ResponseEntity<QR> = await api.post(`/qr/update`, qrcode);
 
       return response.data;
     } catch (error) {

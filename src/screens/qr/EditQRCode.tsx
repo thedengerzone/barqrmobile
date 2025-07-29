@@ -8,7 +8,6 @@ const EditQRCode = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [qrData, setQrData] = useState<any>(null);
   const [tableNumber, setTableNumber] = useState('');
-  const [email, setEmail] = useState('');
   const [active, setActive] = useState(true);
 
   useEffect(() => {
@@ -34,10 +33,9 @@ const EditQRCode = ({ route, navigation }) => {
       const updatedData = {
         ...qrData,
         tableNumber: tableNumber ? parseInt(tableNumber) : null,
-        email,
         active,
       };
-      const response = await qrService.updateQRCode(updatedData);
+      const response = await qrService.updateQrCode(updatedData)
       if (response) {
         navigation.goBack();
       }
