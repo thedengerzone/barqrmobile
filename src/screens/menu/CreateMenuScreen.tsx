@@ -20,11 +20,13 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MenuItem, Menu } from '../../interface/menu';
 import { menuService } from '../../services/menu';
+import {useGlobalState} from "../reducer/reducers.tsx";
 
 const CreateMenuScreen = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const route = useRoute();
+  const state = useGlobalState();
   const { menuItems: initialItems } = route.params as { menuItems: MenuItem[] };
 
   const [menuName, setMenuName] = useState('');
@@ -84,7 +86,7 @@ const CreateMenuScreen = () => {
     const newMenu: Menu = {
       name: menuName.trim(),
       menuItems,
-      companyId: 3, // Replace with actual company ID if needed
+      companyId: state.auth.user?.company.id, // Replace with actual company ID if needed
     };
 
     try {
