@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order Widget</title>
+
+  <!-- MUI and React CDNs -->
+  <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  />
+  <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@material-ui/core@4.12.3/umd/material-ui.production.min.js"></script>
+</head>
+<body>
+<div id="order-widget">Loading app...</div>
+
+<script type="text/javascript">
+  window.addEventListener("DOMContentLoaded", function () {
+    const {
+      Button,
+      TextField,
+      Typography,
+      Paper,
+      Box,
+      Container,
+    } = MaterialUI;
+
+    function getCodeStringFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("code");
+    }
+
+    function OrderApp() {
+      const [menu, setMenu] = React.useState([]);
+      const [basket, setBasket] = React.useState({});
+      const [loading, setLoading] = React.useState(true);
+      const [submitting, setSubmitting] = React.useState(false);
+      const [submitted, setSubmitted] = React.useState(false);
+      const [confirmed, setConfirmed] = React.useState(false);
+      const [locationText, setLocationText] = React.useState("");
+      const [geoLocation, setGeoLocation] = React.useState(null);
+      const [locationStatus, setLocationStatus] = React.useState("📍 Requesting location...");
+
+      const codeString = getCodeStringFromUrl();
+
+      // Load menu
+      React.useEffect(() => {
+        if (!codeString) return;
+
+        fetch(`https://api.bar-qr.com/api/v1/menu/${codeString}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Network response was not ok");
+          return res.json();
+        })
+        .then((data) => {
+          setMenu(data.menuItems || []);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Menu fetch failed:", err);
+          setLoading(false);
+        });
+      }, [codeString]);
+
+      // Get location
+      React.useEffect(() => {
+        if (!navigator.geolocation) {
+          setLocationStatus("❌ Geolocation not supported.");
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              setGeoLocation({
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude,
+                accuracy: pos.coords.accuracy,
+              });
+              setLocationStatus("✅ Location acquired.");
+            },
+            (err) => {
+              console.warn("Geolocation error:", err);
+              setLocationStatus("❌ Failed to get location.");
+            }
+        );
+      }, []);
+
+      // Poll for confirmation
+      React.useEffect(() => {
+        if (!submitted) return;
+
+        const interval = setInterval(() => {
+          fetch(`https://api.bar-qr.com/api/v1/order/bar/${codeString}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data) {
+              setConfirmed(true);
+              clearInterval(interval);
+            }
+          })
+          .catch((err) => {
+            console.error("Check order error:", err);
+          });
+        }, 3000); // poll every 3 seconds
+
+        return () => clearInterval(interval);
+      }, [submitted, codeString]);
+
+      function updateBasket(id, delta) {
+        setBasket((prev) => {
+          const current = prev[id] || 0;
+          const next = Math.max(0, current + delta);
+          const updated = { ...prev };
+          if (next === 0) {
+            delete updated[id];
+          } else {
+            updated[id] = next;
+          }
+          return updated;
+        });
+      }
+
+      function handleSubmit() {
+        if (!geoLocation) {
+          alert("Location is required.");
+          return;
+        }
+
+        setSubmitting(true);
+
+        const payload = {
+          items: basket,
+          token: "",
+          location: locationText,
+          geoLocation,
+        };
+
+        fetch(`https://api.bar-qr.com/api/v1/order/${codeString}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+        .then((res) => {
+          if (!res.ok) throw new Error("Order submission failed");
+          return res.json();
+        })
+        .then(() => {
+          setSubmitting(false);
+          setSubmitted(true);
+        })
+        .catch((err) => {
+          console.error("Order submit failed:", err);
+          alert("Failed to submit order");
+          setSubmitting(false);
+        });
+      }
+
+      if (!codeString) {
+        return React.createElement("div", null, "❌ No code provided.");
+      }
+
+      if (loading) {
+        return React.createElement("div", null, "⏳ Loading menu...");
+      }
+
+      if (submitted && !confirmed) {
+        return React.createElement(
+            "div",
+            { style: { textAlign: "center", padding: "40px" } },
+            React.createElement("div", null, "⌛ Waiting for confirmation..."),
+            React.createElement("div", { style: { marginTop: "12px", color: "#888" } }, "We'll notify when it's ready.")
+        );
+      }
+
+      if (confirmed) {
+        return React.createElement("div", null, "✅ Order confirmed!");
+      }
+
+      return React.createElement(
+          Container,
+          {
+            maxWidth: "sm",
+            style: { fontFamily: "Roboto", padding: "24px 0" },
+          },
+          React.createElement(
+              Box,
+              null,
+              React.createElement(
+                  Typography,
+                  {
+                    variant: "h5",
+                    gutterBottom: true,
+                    style: { fontWeight: "bold", marginBottom: "12px" },
+                  },
+                  "🛒 Order Menu"
+              ),
+              React.createElement(
+                  Typography,
+                  {
+                    variant: "body2",
+                    style: {
+                      marginBottom: "12px",
+                      fontStyle: "italic",
+                      color: "#666",
+                    },
+                  },
+                  locationStatus
+              ),
+              React.createElement(TextField, {
+                fullWidth: true,
+                label: "Location (e.g. table or address)",
+                variant: "outlined",
+                value: locationText,
+                onChange: (e) => setLocationText(e.target.value),
+                style: { marginBottom: "20px" },
+              }),
+              menu.map((item) =>
+                  React.createElement(
+                      Paper,
+                      {
+                        key: item.id,
+                        elevation: 2,
+                        style: {
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "12px",
+                          marginBottom: "12px",
+                        },
+                      },
+                      React.createElement(
+                          "div",
+                          null,
+                          React.createElement(
+                              Typography,
+                              {
+                                variant: "subtitle1",
+                                style: { fontWeight: 500 },
+                              },
+                              item.name
+                          ),
+                          React.createElement(
+                              Typography,
+                              {
+                                variant: "body2",
+                                style: { color: "#888" },
+                              },
+                              `${item.price.toFixed(2)} €`
+                          )
+                      ),
+                      React.createElement(
+                          "div",
+                          {
+                            style: { display: "flex", alignItems: "center" },
+                          },
+                          React.createElement(
+                              Button,
+                              {
+                                variant: "outlined",
+                                size: "small",
+                                onClick: () => updateBasket(item.id, -1),
+                                disabled: submitting,
+                                style: {
+                                  minWidth: "36px",
+                                  marginRight: "8px",
+                                },
+                              },
+                              "−"
+                          ),
+                          React.createElement(
+                              "span",
+                              null,
+                              basket[item.id] || 0
+                          ),
+                          React.createElement(
+                              Button,
+                              {
+                                variant: "outlined",
+                                size: "small",
+                                onClick: () => updateBasket(item.id, 1),
+                                disabled: submitting,
+                                style: {
+                                  minWidth: "36px",
+                                  marginLeft: "8px",
+                                },
+                              },
+                              "+"
+                          )
+                      )
+                  )
+              ),
+              React.createElement(
+                  Button,
+                  {
+                    variant: "contained",
+                    color: "primary",
+                    fullWidth: true,
+                    disabled:
+                        submitting ||
+                        Object.keys(basket).length === 0 ||
+                        !geoLocation,
+                    onClick: handleSubmit,
+                    style: { marginTop: "16px" },
+                  },
+                  submitting ? "Submitting..." : "Submit Order"
+              )
+          )
+      );
+    }
+
+    ReactDOM.render(
+        React.createElement(OrderApp),
+        document.getElementById("order-widget")
+    );
+  });
+</script>
+</body>
+</html>
